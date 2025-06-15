@@ -3,6 +3,8 @@ from werkzeug.utils import secure_filename
 import os
 from stegano.lsb import hide, reveal
 from io import BytesIO
+from flask import Flask, render_template, request, redirect
+from cryptography.fernet import Fernet
 
 app = Flask(__name__)
 app.secret_key = 'rahasia_banget'
@@ -102,3 +104,28 @@ def decrypt_route():
 if __name__ == '__main__':
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     app.run(debug=True)
+
+@app.route("/text-crypto", methods=["GET", "POST"])
+def text_crypto():
+    result = ""
+    mode = "encrypt"
+    text = ""
+    key = request.form.get("key", "")
+
+    if request.method == "POST":
+        text = request.form.get("text", "")
+        mode = request.form.get("mode", "encrypt")
+
+        try:
+            if not key:
+                key = Fernet.generate_key().decode()
+            fernet = Fernet(key.encode())
+
+            if mode == "encrypt":
+                result = fernet.encrypt(text.encode()).decode()
+            else:
+                result = fernet.decrypt(text.encode()).decode()
+        except Exception as e:
+            result = f"❌ Error: {e}"
+
+    return render_template("text_crypto.html", result=result, mode=mode, key=key)
