@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>🔐 SteganoKripto Web</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f8ff;
+            padding: 30px;
+            color: #333;
+        }
+        h1 {
+            color: #0077b6;
+            text-align: center;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input[type="file"], input[type="text"], textarea {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background: #00b4d8;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0077b6;
+        }
+        .output {
+            max-width: 500px;
+            margin: 20px auto;
+            background: #dff0d8;
+            padding: 15px;
+            border-radius: 6px;
+            color: #2e7d32;
+        }
+        img {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🔐 Stegano + Kripto Web</h1>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul>
+    {% for msg in messages %}
+      <li style="color:red; text-align:center">{{ msg }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<form action="/encrypt" method="post" enctype="multipart/form-data">
+    <h3>🔒 Enkripsi & Sembunyikan</h3>
+    <input type="file" name="image" accept="image/png" required>
+    <textarea name="message" rows="3" placeholder="Pesan rahasia" required></textarea>
+    <input type="text" name="shift" placeholder="Shift Caesar (misal: 3)" required>
+    <button type="submit">🔐 Enkripsi</button>
+</form>
+
+<form action="/decrypt" method="post" enctype="multipart/form-data" style="margin-top:30px;">
+    <h3>🔓 Ambil & Dekripsi</h3>
+    <input type="file" name="image" accept="image/png" required>
+    <input type="text" name="shift" placeholder="Shift Caesar (misal: 3)" required>
+    <button type="submit">🔓 Dekripsi</button>
+</form>
+
+{% if encrypted_image %}
+<div class="output">
+    <p>✅ Gambar berhasil disisipkan. Unduh gambar di bawah ini:</p>
+    <img src="{{ encrypted_image }}" alt="Encrypted image">
+</div>
+{% endif %}
+
+{% if decrypted_message %}
+<div class="output">
+    <p>📩 Pesan Tersembunyi:</p>
+    <strong>{{ decrypted_message }}</strong>
+</div>
+{% endif %}
+
+</body>
+</html>

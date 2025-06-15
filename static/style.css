@@ -1,0 +1,32 @@
+body {
+    font-family: "Segoe UI", sans-serif;
+    background-color: #e3f2fd;
+    color: #333;
+    text-align: center;
+    padding: 2rem;
+}
+
+textarea, input[type="number"] {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 1rem;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 1rem;
+    background-color: #1565c0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 20px;
+    background: #bbdefb;
+    padding: 10px;
+    border-radius: 5px;
+}
